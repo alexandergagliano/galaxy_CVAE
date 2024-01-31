@@ -53,8 +53,8 @@ def ELBO(x_hat, x, mu, logvar, y, beta0, beta1, beta2, device):
     #MSE loss between the image x and the reconstruction x_hat
     MSE = torch.nn.MSELoss(reduction='sum')(x_hat, x)
 
-    mu_obj = torch.zeros([mu.shape[0], mu.shape[1]], dtype=torch.float32,device=device)#.to(device)
-    mu_err = torch.zeros([mu.shape[0], mu.shape[1]], dtype=torch.float32,device=device)#.to(device)
+    mu_obj = torch.zeros([mu.shape[0], mu.shape[1]], dtype=torch.float32,device=device)
+    mu_err = torch.zeros([mu.shape[0], mu.shape[1]], dtype=torch.float32,device=device)
 
     #set the means for our KL-divergence
     #mu_obj[:, 0] = y[:, 0] #redshift
@@ -65,8 +65,8 @@ def ELBO(x_hat, x, mu, logvar, y, beta0, beta1, beta2, device):
     #mu_err[:, 1] = y[:, 4] #uncertainty for logmass
     #mu_err[:, 2] = y[:, 5] #uncertainty for SFR
     
-    logvar = logvar#.to(device)
-    logvar_obj = torch.zeros([logvar.shape[0], logvar.shape[1]], dtype=torch.float32,device=device)#.to(device)
+    logvar = logvar
+    logvar_obj = torch.zeros([logvar.shape[0], logvar.shape[1]], dtype=torch.float32,device=device)
 
     #KL-divergence between a gaussian and the distribution of latent parameters
     KLD1 = -0.5 * torch.sum(1 + logvar - logvar_obj -  torch.div(torch.subtract(mu, mu_obj).pow(2), logvar_obj.exp()) - torch.div(logvar.exp(), logvar_obj.exp()))
